@@ -24,7 +24,7 @@ echo "- - - - - - - - - - - - - - - - - - -"
 # Create .env file
 echo ""
 echo "Creating .env file"
-echo "ENV_VARIABLE=value" > .env
+touch .env
 
 # Check if .env file is created
 if [ -f .env ]; then
@@ -33,5 +33,15 @@ else
     echo "Failed to create .env file."
     exit 1
 fi
+echo ""
+echo "- - - - - - - - - - - - - - - - - - -";
+
+# Add ENV variable to .env
+echo ""
+echo "Adding variables to .env"
+echo "AWS_ACCESS_KEY=" > .env
+echo "AWS_SECRET_KEY=" >> .env
+echo "AWS_REGION=" >> .env
+echo "Adding variables to .env completed"
 echo ""
 echo "- - - - - - - - - - - - - - - - - - -";
