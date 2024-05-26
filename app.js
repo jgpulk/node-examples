@@ -9,6 +9,9 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var awsRouter = require('./routes/aws.route');
 
+// DB
+const db = require('./services/mongodb.service')
+
 var app = express();
 
 // view engine setup

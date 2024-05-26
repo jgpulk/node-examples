@@ -11,10 +11,8 @@ class AWS{
 
     async uploadToS3(params) {
         try {
-            console.log("uploading to s3 staered");
             const s3 = new aws.S3()
             const result = await s3.upload(params).promise()
-            console.log(result);
             return result.Key
         } catch (error) {
             console.log(error);
