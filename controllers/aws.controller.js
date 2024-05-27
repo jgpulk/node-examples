@@ -1,4 +1,5 @@
 const AWS = require('../services/aws.service')
+const s3storage = require('../models/s3storage.model')
 
 async function uploadFile(req, res, next){
     try {
@@ -7,20 +8,21 @@ async function uploadFile(req, res, next){
         }
         const aws = new AWS()
         let fileType = req.file.originalname.split(".")[1]
+        let fileName = req.file.originalname.split(".")[0]
         const params = {
             Bucket: process.env.AWS_S3_BUCKET,
-            Key: `test.${fileType}`,
+            Key: `${fileName}.${fileType}`,
             Body: req.file.buffer,
             ContentType: req.file.mimetype
         }
-        // console.log(params);  
-        let dpKey = await aws.uploadToS3(params)
-        res.send(dpKey)
-        // await User.findOneAndUpdate({ _id: req.userid }, {dp: dpKey}, {select: '-password'})
-        // let data = {
-        //     url: getProfilePicture(params.Key)
-        // }
-        // res.status(200).json({status : true, data: data, message : 'Profile picture uploaded successfully'})
+        let result = await aws.uploadToS3(params)
+        let new_file = new s3storage({
+            key: result.Key,
+            location: result.Location,
+            name: fileName
+        })
+        await new_file.save()
+        res.status(200).json({status : true, data: new_file, message : 'File uploaded successfully'})
     } catch (error) {
         next(error)
     }

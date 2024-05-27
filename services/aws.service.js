@@ -13,7 +13,7 @@ class AWS{
         try {
             const s3 = new aws.S3()
             const result = await s3.upload(params).promise()
-            return result.Key
+            return result
         } catch (error) {
             console.log(error);
             throw error
